@@ -1,4 +1,4 @@
-package basic.java_biginteger;
+package basic.java_big_number.java_biginteger;
 
 import java.io.*;
 import java.math.BigInteger;
