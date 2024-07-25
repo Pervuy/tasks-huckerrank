@@ -8,10 +8,6 @@ import java.util.stream.IntStream;
 public class Solution {
 
   public static void main(String[] args) throws IOException {
-    /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
-//    Scanner scanner = new Scanner(System.in);
-//    int n = scanner.nextInt();//кількість елементів в масиві
-//    String line = scanner.nextLine();
 
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -23,31 +19,19 @@ public class Solution {
 
     String[] strings = line.split(" ");
 
-    List<Integer> list = Arrays.stream(strings).map(Integer::parseInt).toList();
+    List<Integer> list = Arrays.stream(strings).map(Integer::parseInt).collect(Collectors.toList());
 
-    List<List<String>> lists = IntStream.iterate(0, i -> i + 1)
-            .limit(list.size() - 2)
-            .mapToObj(
-                    i -> IntStream.iterate(i + 1, j -> j + 1)
-                            .limit(list.size() - i)
-                            .mapToObj(j -> String.format("i=%d j=%d", i, j)).toList()
-            // .forEach(j-> System.out.println("i="+i+" j="+j)
-    ).toList();
-    System.out.println(lists);
-
-    //System.out.println(splitByLength(list));
-
+    System.out.println(sizeNegativeSubarray(list));
 
   }
-  public static List<List<Integer>> splitByLength(List<Integer> list) {
+  public static int sizeNegativeSubarray(List<Integer> list) {
 
-       return IntStream.iterate(0, i -> i + 1)
-             .limit(list.size()-2)
-             .mapToObj(
-                     i->IntStream.iterate(i+1, j -> j + i-1)
-                             .limit(list.size()-1)
-                             .mapToObj(list::get).toList()).toList();
-
+       return IntStream.range(0, list.size()).boxed()
+               .flatMap(i -> IntStream.range(i + 1, list.size() + 1)
+                       .mapToObj(j -> IntStream.range(i, j)
+                               .mapToObj(list::get)
+                               .toList())).filter(subarray -> subarray.stream().mapToInt(Integer::intValue).sum() < 0)
+               .collect(Collectors.toList()).size();
 
   }
 }
