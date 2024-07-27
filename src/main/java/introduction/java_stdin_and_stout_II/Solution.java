@@ -1,4 +1,4 @@
-package basic.java_stdin_and_stout_II;
+package introduction.java_stdin_and_stout_II;
 
 import java.io.*;
 import java.util.*;
